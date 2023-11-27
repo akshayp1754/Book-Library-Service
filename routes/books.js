@@ -4,7 +4,7 @@ const router = Router();
 
 router.post("/", addBook)
 
-router.get("/", getAllBooks)
+router.get("/getBooks", getAllBooks)
 
 router.get("/:id", getBook)
 

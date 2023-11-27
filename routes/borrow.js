@@ -10,7 +10,7 @@ const router = Router();
 // Route for the borrowing books
 router.post("/:id", authMiddleware, borrowBook);
 
-// route for fetting the borrowed books
+// route for getting the borrowed books
 router.get("/", authMiddleware, getBorrowedBook);
 
 // Route for returning the borrowed book

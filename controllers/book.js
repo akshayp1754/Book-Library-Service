@@ -2,10 +2,7 @@ const { Book } = require("../schema/book");
 
 module.exports.addBook = async (req, res) => {
   try {
-    const addNewBook = await Book.create(req.body);
-    if (!title || !author || !genre) {
-        return res.status(400).json({ error: 'Incomplete data' });
-      }
+    const addNewBook = await Book.create(req.body)
     return res.status(201).json({
       message: "Book added successfully",
       success: true,

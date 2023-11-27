@@ -63,9 +63,7 @@ module.exports.getBorrowedBook = async (req, res) => {
 module.exports.returnBorrowedBook = async (req, res) => {
   try {
     const { id: userId } = req.user; 
-    console.log(userId);
     const bookId = req.params.id; 
-    console.log(bookId);
     // Find the borrowed book associated with the user and book ID
     const borrowedBook = await BorrowBook.findOneAndUpdate({ user: userId, book: bookId });
     console.log(borrowedBook);
@@ -78,11 +76,14 @@ module.exports.returnBorrowedBook = async (req, res) => {
     borrowedBook.return_date = new Date();
     await borrowedBook.save();
 
-    return res.status(200).json({
-      success: true,
-      message: 'Book returned successfully',
-      data: borrowedBook,
-    });
+     // Remove the book from the borrowed book list
+     await BorrowBook.findOneAndDelete({ user: userId, book: bookId });
+
+     return res.status(200).json({
+       success: true,
+       message: 'Book returned successfully and removed from borrowed book list',
+       data: borrowedBook,
+     });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: error.message, success: false, data: null });
